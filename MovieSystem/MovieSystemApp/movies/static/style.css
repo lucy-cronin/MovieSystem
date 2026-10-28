@@ -1,23 +1,157 @@
-/* Pink theme: overrides Bootstrap's colour variables and components */
+/* =========================
+   Movie System - Pink Theme
+   ========================= */
+
 :root {
-  --bs-primary: #e83e8c;
-  --bs-primary-rgb: 232, 62, 140;
-  --pink-soft: #fff0f6;
-  --pink-mid: #ff80ab;
-  --pink-deep: #c2185b;
+    --pink-soft: #fff0f6;
+    --pink-mid: #ff80ab;
+    --pink-main: #e83e8c;
+    --pink-deep: #c2185b;
 }
-body { background: var(--pink-soft); min-height: 100vh; display: flex; flex-direction: column; }
-main { flex: 1; }
-.navbar { background: linear-gradient(90deg, var(--pink-mid), #e83e8c); }
-.navbar .navbar-brand, .navbar .nav-link { color: #fff !important; }
-.btn-primary { background: var(--pink-deep); border-color: var(--pink-deep); }
-.btn-primary:hover { background: #ad1457; border-color: #ad1457; }
-.btn-outline-primary { color: var(--pink-deep); border-color: var(--pink-deep); }
-.btn-outline-primary:hover { background: var(--pink-deep); border-color: var(--pink-deep); }
-.card { border: none; border-radius: 1rem; box-shadow: 0 4px 14px rgba(232, 62, 140, .15); transition: transform .15s; }
-.card:hover { transform: translateY(-4px); }
-.badge-genre { background: var(--pink-mid); color: #fff; }
-.form-control:focus, .form-select:focus { border-color: #e83e8c; box-shadow: 0 0 0 .25rem rgba(232, 62, 140, .25); }
-.page-link { color: var(--pink-deep); }
-.page-item.active .page-link { background: var(--pink-deep); border-color: var(--pink-deep); color: #fff; }
-footer { background: #fce4ec; color: var(--pink-deep); }
+
+/* General page */
+body {
+    background-color: var(--pink-soft);
+}
+
+/* Navigation bar */
+.navbar-pink {
+    background-color: var(--pink-main);
+}
+
+.navbar-pink .navbar-nav {
+    color: var(--pink-deep)!important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.navbar-brand {
+  color:white;
+
+}
+
+.nav-link {
+  color:white;
+}
+
+.navbar-pink .navbar-nav .nav-link:hover,
+.navbar-pink .navbar-nav .nav-link:focus {
+    color: pink !important;
+    text-decoration: underline;
+}
+
+/* Footer */
+.footer-pink {
+    background-color: #fce4ec;
+    color: var(--pink-deep);
+    border-radius: 1rem;
+}
+
+/* Alerts */
+.alert-pink {
+    background-color: #fce4ec;
+    border-color: var(--pink-mid);
+    color: var(--pink-deep);
+}
+
+/* Primary and success buttons */
+.btn-primary,
+.btn-success {
+    background-color: var(--pink-deep) !important;
+    border-color: var(--pink-deep) !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-decoration: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-success:hover,
+.btn-success:focus {
+    background-color: #ad1457 !important;
+    border-color: #ad1457 !important;
+    color: #ffffff !important;
+}
+
+/* Ensure the Add Movie link button stays visible */
+a.btn.btn-primary,
+a.btn.btn-primary:visited {
+    display: inline-block;
+    color:var(--pink-deep) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Outline buttons */
+.btn-outline-dark,
+.btn-outline-primary {
+    color: var(--pink-deep);
+    border-color: var(--pink-deep);
+}
+
+.btn-outline-dark:hover,
+.btn-outline-primary:hover {
+    background-color: var(--pink-deep);
+    border-color: var(--pink-deep);
+    color: var(--pink-deep);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 14px rgba(232, 62, 140, 0.15);
+}
+
+/* Tables */
+.table {
+    --bs-table-bg: transparent;
+}
+
+.thead-pink th {
+    background-color: var(--pink-main);
+    color: var(--pink-deep);
+    border: none;
+}
+
+/* Form focus */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--pink-main);
+    box-shadow: 0 0 0 0.25rem rgba(232, 62, 140, 0.25);
+}
+
+/* Pagination */
+.page-link {
+    color: var(--pink-deep);
+}
+
+.page-item.active .page-link {
+    background-color: var(--pink-deep);
+    border-color: var(--pink-deep);
+    color: #ffffff;
+}
+
+/* Genre badges */
+.badge-genre {
+    background-color: var(--pink-mid);
+    color: #ffffff;
+}
+
+
+/* Keep the Add Movie button visible */
+/* Add Movie button */
+.add-movie-btn {
+    display: inline-block;
+    background-color: #f8bbd0;
+    color: #880e4f;
+    border: 1px solid #f8bbd0;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.add-movie-btn:hover {
+    color: #ffffff;
+}

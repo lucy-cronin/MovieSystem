@@ -1,33 +1,77 @@
 {% extends 'base.html' %}
+
+{% block title %}All Movies{% endblock %}
+
 {% block content %}
-<h1 class="mb-3">Movies</h1>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 style="color:black;margin-left: 20px;">All Movies</h1>
+
+  <a href="{% url 'movie_add' %}" class="add-movie-btn">
+      + Add Movie
+  </a>
+</div>
 
 <form method="get" class="row g-2 mb-4">
-  <div class="col-md-9">
-    <input type="text" name="q" value="{{ query }}" class="form-control"
-           placeholder="Search by name or genre">
-  </div>
-  <div class="col-md-3 d-flex gap-2">
-    <button class="btn btn-primary" type="submit">Search</button>
-    <a class="btn btn-outline-secondary" href="{% url 'movie_list' %}">Clear</a>
-  </div>
+    <input type="hidden" name="q" value="{{ request.GET.q }}">
+
+    <div class="col-md-4">
+        <select name="sort" class="form-select" onchange="this.form.submit()">
+            <option value="name" {% if request.GET.sort == 'name' or not request.GET.sort %}selected{% endif %}>Sort: Name</option>
+            <option value="-rating" {% if request.GET.sort == '-rating' %}selected{% endif %}>Highest rated</option>
+            <option value="-release_date" {% if request.GET.sort == '-release_date' %}selected{% endif %}>Newest first</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <a class="btn btn-outline-secondary" href="{% url 'movie_list' %}">Clear</a>
+    </div>
 </form>
 
 <table class="table table-striped table-hover">
-  <thead class="table-dark">
-    <tr><th>Name</th><th>Genre</th><th>Director</th><th>Release Date</th></tr>
-  </thead>
-  <tbody>
-    {% for m in movies %}
-    <tr>
-      <td><a href="{% url 'movie_detail' m.pk %}">{{ m.name }}</a></td>
-      <td>{{ m.genre }}</td>
-      <td>{{ m.director }}</td>
-      <td>{{ m.release_date }}</td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="4" class="text-center">No movies found.</td></tr>
-    {% endfor %}
-  </tbody>
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Genre</th>
+            <th>Director</th>
+            <th>Release Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in movies %}
+        <tr>
+            <td><a href="{% url 'movie_detail' m.pk %}">{{ m.name }}</a></td>
+            <td>{{ m.genre }}</td>
+            <td>{{ m.director }}</td>
+            <td>{{ m.release_date }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No movies found. Click “Add Movie” to add one.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
+
+{% if is_paginated %}
+<nav aria-label="Movie pages">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ q|urlencode }}&sort={{ sort|urlencode }}">Previous</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        </li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ q|urlencode }}&sort={{ sort|urlencode }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
 {% endblock %}

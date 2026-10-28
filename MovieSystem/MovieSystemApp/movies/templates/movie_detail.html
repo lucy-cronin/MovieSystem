@@ -1,19 +1,50 @@
+
 {% extends 'base.html' %}
+
+{% block title %}
+{{ movie.name }}
+{% endblock %}
+
 {% block content %}
 <div class="card">
-  <div class="card-body">
-    <h1 class="card-title">{{ movie.name }}</h1>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Genre:</strong> {{ movie.genre }}</li>
-      <li class="list-group-item"><strong>Director:</strong> {{ movie.director }}</li>
-      <li class="list-group-item"><strong>Release date:</strong> {{ movie.release_date }}</li>
-      <li class="list-group-item"><strong>Rating:</strong> {{ movie.rating }}/5</li>
-      <li class="list-group-item"><strong>Price:</strong> €{{ movie.price }}</li>
-    </ul>
-    <p>{{ movie.description }}</p>
-    <a class="btn btn-warning" href="{% url 'update_movie' movie.pk %}">Edit</a>
-    <a class="btn btn-danger" href="{% url 'delete_movie' movie.pk %}">Delete</a>
-    <a class="btn btn-secondary" href="{% url 'movie_list' %}">Back</a>
-  </div>
+    <div class="card-body">
+        <h1 class="card-title">{{ movie.name }}</h1>
+
+        <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item">
+                <strong>Genre:</strong> {{ movie.genre }}
+            </li>
+
+            <li class="list-group-item">
+                <strong>Director:</strong> {{ movie.director }}
+            </li>
+
+            <li class="list-group-item">
+                <strong>Release date:</strong> {{ movie.release_date }}
+            </li>
+
+            <li class="list-group-item">
+                <strong>Rating:</strong> {{ movie.rating }}/5
+            </li>
+
+            <li class="list-group-item">
+                <strong>Price:</strong> €{{ movie.price }}
+            </li>
+        </ul>
+
+        <p>{{ movie.description }}</p>
+
+        <a class="btn btn-warning" href="{% url 'movie_edit' movie.pk %}">
+            Edit
+        </a>
+
+        <a class="btn btn-danger" href="{% url 'movie_delete' movie.pk %}">
+            Delete
+        </a>
+
+        <a class="btn btn-secondary" href="{% url 'movie_list' %}">
+            Back
+        </a>
+    </div>
 </div>
 {% endblock %}
