@@ -19,6 +19,7 @@ class Movie(models.Model):
     director = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
     rating = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
+    poster = models.ImageField(upload_to='movie_posters/',blank=True,null=True)
 
     def __str__(self):
         return self.name

@@ -12,7 +12,7 @@
                 {% if form.instance.pk %}Edit Movie{% else %}Add Movie{% endif %}
             </h1>
 
-            <form method="post" novalidate>
+            <form method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
 
                 {{ form.non_field_errors }}

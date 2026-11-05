@@ -12,6 +12,7 @@
   </a>
 </div>
 
+
 <form method="get" class="row g-2 mb-4">
     <input type="hidden" name="q" value="{{ request.GET.q }}">
 
@@ -28,7 +29,7 @@
     </div>
 </form>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover bg-white">
     <thead class="table-dark">
         <tr>
             <th>Name</th>
@@ -37,7 +38,7 @@
             <th>Release Date</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="movie-results">
         {% for m in movies %}
         <tr>
             <td><a href="{% url 'movie_detail' m.pk %}">{{ m.name }}</a></td>
@@ -45,6 +46,13 @@
             <td>{{ m.director }}</td>
             <td>{{ m.release_date }}</td>
         </tr>
+                    <td>
+                {% if m.poster %}
+                    <img src="{{ m.poster.url }}" alt="{{ m.name }} poster" style="width: 80px; object-fit: cover; border-radius: 5px;">
+                {% else %}
+                    <span class="text-muted">No poster</span>
+                {% endif %}
+            </td>
         {% empty %}
         <tr>
             <td colspan="4" class="text-center">No movies found. Click “Add Movie” to add one.</td>

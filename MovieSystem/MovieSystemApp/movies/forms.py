@@ -4,7 +4,7 @@ from .models import Movie
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        fields = ['name', 'release_date', 'genre', 'price', 'director', 'description', 'rating']
+        fields = ['name', 'release_date', 'genre', 'price', 'director', 'description', 'rating','poster']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'release_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
@@ -13,6 +13,7 @@ class MovieForm(forms.ModelForm):
             'director': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'rating': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1', 'min': '0', 'max': '5'}),
+            'poster': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
     def clean_name(self):

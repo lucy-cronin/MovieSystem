@@ -9,12 +9,15 @@ from .models import Movie
 from .forms import MovieForm
 
 
+from django.http import JsonResponse
+from django.urls import reverse
+
 class MovieListView(ListView):
     """List movies with search (name/genre/director), sorting and pagination."""
     model = Movie
     template_name = 'movie_list.html'
     context_object_name = 'movies'
-    paginate_by = 8
+    paginate_by = 3
     ordering = ['name']
 
     def get_queryset(self):
@@ -61,3 +64,33 @@ class MovieDeleteView(DeleteView):
     model = Movie
     template_name = 'delete_movie.html'
     success_url = reverse_lazy('movie_list')
+
+
+
+def movie_search(request):
+    query = request.GET.get('q', '').strip()
+
+    movies = Movie.objects.all()
+
+    if query:
+        movies = movies.filter(
+            Q(name__icontains=query) |
+            Q(genre__icontains=query) |
+            Q(director__icontains=query)
+        )
+
+    movies = movies.order_by('name')
+
+    results = []
+
+    for movie in movies:
+        results.append({
+            'name': movie.name,
+            'genre': movie.genre,
+            'director': movie.director,
+            'release_date': str(movie.release_date),
+            'detail_url': reverse('movie_detail', args=[movie.pk]),
+            'poster_url': movie.poster.url if movie.poster else '',
+        })
+
+    return JsonResponse({'movies': results})

@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
 
     <title>{% block title %}Movie System{% endblock title %}</title>
+
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
 </head>
 <body>
 
@@ -34,11 +36,23 @@
                         <a class="nav-link" href="{% url 'movie_add' %}">Add Movie</a>
                     </li>
                 </ul>
-                <form class="d-flex w-50" method="get" action="{% url 'movie_list' %}">
-                    <input class="form-control me-2 flex-grow-1" type="search" name="q"
-                           value="{{ request.GET.q }}" placeholder="Search name, genre, director">
-                    <button class="btn btn-light flex-shrink-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
+
+
+        <form class="d-flex w-50" method="get" action="{% url 'movie_list' %}">
+            <input
+                id="navbar-movie-search"
+                class="form-control me-2 flex-grow-1"
+                type="search"
+                name="q"
+                value="{{ request.GET.q }}"
+                placeholder="Search name, genre, director"
+                data-search-url="{% url 'movie_search' %}"
+            >
+
+            <button class="btn btn-light flex-shrink-0" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
             </div>
         </div>
     </nav>
@@ -65,6 +79,121 @@
             </a>
         </div>
     </footer>
+
+
+
+<!--live search functionality-->
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const searchInput = document.getElementById('navbar-movie-search');
+
+    if (!searchInput) return;
+
+    let timeout;
+
+    searchInput.addEventListener('input', function () {
+
+        clearTimeout(timeout);
+
+        timeout = setTimeout(function () {
+
+            const query = searchInput.value;
+
+            const url = searchInput.dataset.searchUrl +
+                '?q=' + encodeURIComponent(query);
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+
+                    const resultsBody = document.getElementById('movie-results');
+
+                    // Only update the table if it exists on the current page
+                    if (!resultsBody) return;
+
+                    resultsBody.replaceChildren();
+
+                    if (data.movies.length === 0) {
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+
+                        cell.colSpan = 5;
+                        cell.className = 'text-center';
+                        cell.textContent = 'No movies found.';
+
+                        row.appendChild(cell);
+                        resultsBody.appendChild(row);
+                        return;
+                    }
+
+                    data.movies.forEach(movie => {
+
+                        const row = document.createElement('tr');
+
+                        const nameCell = document.createElement('td');
+                        const link = document.createElement('a');
+                        link.href = movie.detail_url;
+                        link.textContent = movie.name;
+                        nameCell.appendChild(link);
+
+                        const genreCell = document.createElement('td');
+                        genreCell.textContent = movie.genre;
+
+                        const directorCell = document.createElement('td');
+                        directorCell.textContent = movie.director;
+
+                        const dateCell = document.createElement('td');
+                        dateCell.textContent = movie.release_date;
+
+                        const posterCell = document.createElement('td');
+
+                        if (movie.poster_url) {
+                            const image = document.createElement('img');
+                            image.src = movie.poster_url;
+                            image.alt = movie.name + ' poster';
+                            image.style.width = '80px';
+                            image.style.height = '110px';
+                            image.style.objectFit = 'cover';
+                            posterCell.appendChild(image);
+                        } else {
+                            posterCell.textContent = 'No poster';
+                        }
+
+                    // Put the poster beside the movie name
+                    if (movie.poster_url) {
+                        const image = document.createElement('img');
+                        image.src = movie.poster_url;
+                        image.alt = movie.name + ' poster';
+                        image.style.width = '80px';
+                        image.style.height = '110px';
+                        image.style.objectFit = 'cover';
+                        image.style.borderRadius = '5px';
+                        image.style.marginRight = '10px';
+
+                        nameCell.prepend(image);
+                    }
+
+                    row.append(
+                        nameCell,
+                        genreCell,
+                        directorCell,
+                        dateCell
+                    );
+
+                        resultsBody.appendChild(row);
+                    });
+
+                })
+                .catch(error => console.error('Search error:', error));
+
+        }, 300);
+
+    });
+
+});
+</script>
 
 </body>
 </html>
