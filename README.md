@@ -2,9 +2,9 @@
 
 # Movie System
 
-A Django web application for managing a movie catalogue. Built for INFO8011 CA1.
+A Django web application for managing a movie catalogue. Built for INFO8011 
 
-**Student:** Lucy Cronin | **Student number:** R00244083
+**Student:** Lucy Cronin | 
 
 ## Features
 
