@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block content %}
+
+<!-- Movie detail card -->
+
 <div class="card">
     <div class="card-body">
         <h1 class="card-title">{{ movie.name }}</h1>
@@ -34,6 +37,8 @@
 
         <p>{{ movie.description }}</p>
 
+        <!-- Movie poster -->
+         
         {% if movie.poster %}
           <img src="{{ movie.poster.url }}"
           alt="{{ movie.name }} poster"

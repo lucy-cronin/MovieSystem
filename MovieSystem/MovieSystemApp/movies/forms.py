@@ -1,6 +1,9 @@
 from django import forms
 from .models import Movie
 
+
+#movie form for creating and updating movie instances
+
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
@@ -15,6 +18,9 @@ class MovieForm(forms.ModelForm):
             'rating': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1', 'min': '0', 'max': '5'}),
             'poster': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+
+
+# Validation for the form fields
 
     def clean_name(self):
         name = self.cleaned_data['name'].strip()

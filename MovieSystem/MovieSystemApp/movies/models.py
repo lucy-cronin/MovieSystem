@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+# Movie model representing a movie in the system
+# dropdown for genre, price with 2 decimal places, rating between 0.0 and 5.0, poster image upload
+
 class Movie(models.Model):
     GENRE_CHOICES = [
         ('Action', 'Action'),

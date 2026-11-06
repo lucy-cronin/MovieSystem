@@ -12,6 +12,8 @@ from .forms import MovieForm
 from django.http import JsonResponse
 from django.urls import reverse
 
+# View for listing movies with search, sorting, and pagination
+
 class MovieListView(ListView):
     """List movies with search (name/genre/director), sorting and pagination."""
     model = Movie
@@ -38,11 +40,13 @@ class MovieListView(ListView):
         ctx['sort'] = self.request.GET.get('sort', '')
         return ctx
 
+# View for displaying movie details
 
 class MovieDetailView(DetailView):
     model = Movie
     template_name = 'movie_detail.html'
 
+# View for creating a new movie instance
 
 class MovieCreateView(SuccessMessageMixin, CreateView):
     model = Movie
@@ -51,6 +55,7 @@ class MovieCreateView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('movie_list')
     success_message = "Movie added successfully!"
 
+# View for updating an existing movie instance
 
 class MovieUpdateView(SuccessMessageMixin, UpdateView):
     model = Movie
@@ -59,13 +64,14 @@ class MovieUpdateView(SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('movie_list')
     success_message = "Movie updated successfully!"
 
+# View for deleting a movie instance
 
 class MovieDeleteView(DeleteView):
     model = Movie
     template_name = 'delete_movie.html'
     success_url = reverse_lazy('movie_list')
 
-
+# View for searching movies and returning JSON response
 
 def movie_search(request):
     query = request.GET.get('q', '').strip()

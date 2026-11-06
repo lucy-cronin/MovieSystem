@@ -8,6 +8,8 @@ from .views import (
     movie_search,
 )
 
+# URL patterns for the movies app, mapping URLs to their corresponding views.
+
 urlpatterns = [
     path("", MovieListView.as_view(), name="movie_list"),
     path("movie/<int:pk>/", MovieDetailView.as_view(), name="movie_detail"),
